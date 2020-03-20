@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">Loftmoney</string>
-    <string name="main_title">Hello world!</string>
+    <string name="app_name" translatable="false">Loftmoney</string>
+    <string name="main_title" translatable="false">Hello world!</string>
+    <string name="edittext_name_hint" translatable="false">Title</string>
+    <string name="edittext_price_hint" translatable="false">Price</string>
+    <string name="add_button_title" translatable="false">Add</string>
 </resources>
