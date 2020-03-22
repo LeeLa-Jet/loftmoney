@@ -15,11 +15,20 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColorHint="@color/colorInactive"
+            android:backgroundTint="@color/colorInactive"
+            android:layout_marginBottom="24dp"
+            android:textColor="@color/colorActive"
             android:hint="@string/edittext_name_hint" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/colorActive"
+            android:textColorHint="@color/colorInactive"
+            android:backgroundTint="@color/colorInactive"
             android:hint="@string/edittext_price_hint" />
     </LinearLayout>
 
@@ -29,6 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@null"
+        android:textSize="14sp"
+        android:textColor="@color/colorInactive"
         android:text="@string/add_button_title" />
 
 </RelativeLayout>
