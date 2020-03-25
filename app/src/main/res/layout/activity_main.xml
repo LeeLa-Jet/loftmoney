@@ -13,9 +13,12 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabMain"
+        android:src="@drawable/plus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:background="@color/colorFab"/>
+        android:background="@color/color_fab"
+        android:tint="@color/tint_color"
+        />
 </FrameLayout>

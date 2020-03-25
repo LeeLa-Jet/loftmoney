@@ -7,6 +7,7 @@
     <color name="colorActive">#3574FA</color>
     <color name="primary_text_color">#666664</color>
     <color name="accent_text_color">#4a90e2</color>
-    <color name="colorFab">#ffc107</color>
+    <color name="color_fab">#ffc107</color>
     <color name="divider_color">#efefef</color>
+    <color name="tint_color">#FFFFFF</color>
 </resources>
