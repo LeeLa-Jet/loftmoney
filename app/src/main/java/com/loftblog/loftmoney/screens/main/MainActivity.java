@@ -1,53 +1,49 @@
 package com.loftblog.loftmoney.screens.main;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
+import com.google.android.material.tabs.TabLayout;
 import com.loftblog.loftmoney.R;
-import com.loftblog.loftmoney.screens.addItem.AddItemActivity;
-import com.loftblog.loftmoney.screens.main.adapter.Item;
-import com.loftblog.loftmoney.screens.main.adapter.ItemsAdapter;
+import com.loftblog.loftmoney.fragments.BudgetFragments;
+
 
 public class MainActivity extends AppCompatActivity {
-
-    private ItemsAdapter itemsAdapter = new ItemsAdapter();
-    static int ADD_ITEM_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerMain);
-        recyclerView.setAdapter(itemsAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+        ViewPager viewPager = findViewById(R.id.viewpager);
+        viewPager.setAdapter(new BudgetPagerAdapter(getSupportFragmentManager()));
 
-        findViewById(R.id.fabMain).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addItemIntent = new Intent(getApplicationContext(), AddItemActivity.class);
-                startActivityForResult(addItemIntent, ADD_ITEM_REQUEST);
-            }
-        });
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setText(R.string.expences);
+        tabLayout.getTabAt(1).setText(R.string.incomes);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    static class BudgetPagerAdapter extends FragmentPagerAdapter {
 
-        if (requestCode == ADD_ITEM_REQUEST && resultCode == RESULT_OK && data != null) {
-            Item item = (Item) data.getSerializableExtra(Item.KEY_NAME);
-            itemsAdapter.addDataToTop(item);
+        public BudgetPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return new BudgetFragments();
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
         }
     }
 }

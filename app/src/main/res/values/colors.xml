@@ -10,4 +10,5 @@
     <color name="color_fab">#ffc107</color>
     <color name="divider_color">#efefef</color>
     <color name="tint_color">#FFFFFF</color>
+    <color name="tabColor">#FFFFFF</color>
 </resources>
