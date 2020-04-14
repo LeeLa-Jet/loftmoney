@@ -1,7 +1,9 @@
 package com.loftblog.loftmoney.screens.addItem;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,9 @@ import io.reactivex.schedulers.Schedulers;
 public class AddItemActivity extends AppCompatActivity {
 
     private List<Disposable> disposables = new ArrayList();
+    private String name;
+    private String price;
+    private Button addButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,21 +37,57 @@ public class AddItemActivity extends AppCompatActivity {
 
         final EditText textName = findViewById(R.id.txtAddName);
         final EditText textValue = findViewById(R.id.txtAddValue);
-        Button buttonAdd = findViewById(R.id.addButton);
+        addButton = findViewById(R.id.addButton);
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        textName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                String name = textName.getText().toString();
-                String value = textValue.getText().toString();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                if (TextUtils.isEmpty(name) || TextUtils.isEmpty(value)) {
-                    return;
-                }
+            }
 
-                sendNewExpense(Integer.valueOf(value), name);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                name = s.toString();
+                checkEditTextHasText();
             }
         });
+
+        textValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                price = s.toString();
+                checkEditTextHasText();
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(name) || TextUtils.isEmpty(price)) {
+                    return;
+                }
+                sendNewExpense(Integer.valueOf(price), name);
+            }
+        });
+    }
+
+    public void checkEditTextHasText() {
+        addButton.setEnabled(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(price));
     }
 
     private void sendNewExpense(Integer price, String name) {

@@ -6,11 +6,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.loftblog.loftmoney.R;
 import com.loftblog.loftmoney.fragments.BudgetFragments;
+import com.loftblog.loftmoney.screens.addItem.AddItemActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,12 +26,23 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabs);
 
-        ViewPager viewPager = findViewById(R.id.viewpager);
+        final ViewPager viewPager = findViewById(R.id.viewpager);
         viewPager.setAdapter(new BudgetPagerAdapter(getSupportFragmentManager()));
 
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setText(R.string.expences);
         tabLayout.getTabAt(1).setText(R.string.incomes);
+
+        FloatingActionButton floatingActionButton = findViewById(R.id.fabMain);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int activeFragmentId = viewPager.getCurrentItem();
+                Fragment activeFragment = getSupportFragmentManager().getFragments().get(activeFragmentId);
+                Intent addItemIntent = new Intent(MainActivity.this, AddItemActivity.class);
+                activeFragment.startActivityForResult(addItemIntent, BudgetFragments.ADD_ITEM_REQUEST);
+            }
+        });
     }
 
     static class BudgetPagerAdapter extends FragmentPagerAdapter {

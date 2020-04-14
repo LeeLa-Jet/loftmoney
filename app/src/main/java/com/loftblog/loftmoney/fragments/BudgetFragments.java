@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.loftblog.loftmoney.R;
 import com.loftblog.loftmoney.screens.addItem.AddItemActivity;
@@ -22,6 +23,8 @@ import com.loftblog.loftmoney.web.models.GetItemsResponseModel;
 import com.loftblog.loftmoney.web.models.ItemRemote;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -32,8 +35,9 @@ import io.reactivex.schedulers.Schedulers;
 public class BudgetFragments extends Fragment {
 
     private ItemsAdapter itemsAdapter = new ItemsAdapter();
-    static int ADD_ITEM_REQUEST = 1;
+    public static int ADD_ITEM_REQUEST = 1;
     private List<Disposable> disposables = new ArrayList();
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onStop() {
@@ -55,19 +59,19 @@ public class BudgetFragments extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_budget, null);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerMain);
+        swipeRefreshLayout = view.findViewById(R.id.swiper);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadItems();
+            }
+        });
+
         recyclerView.setAdapter(itemsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
-
-        view.findViewById(R.id.fabMain).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addItemIntent = new Intent(getActivity(), AddItemActivity.class);
-                startActivityForResult(addItemIntent, ADD_ITEM_REQUEST);
-            }
-        });
         return view;
     }
 
@@ -78,13 +82,24 @@ public class BudgetFragments extends Fragment {
                 .subscribe(new Consumer<GetItemsResponseModel>() {
                     @Override
                     public void accept(GetItemsResponseModel getItemsResponseModel) throws Exception {
+                        swipeRefreshLayout.setRefreshing(false);
                         List<Item> items = new ArrayList<>();
                         for (ItemRemote itemRemote: getItemsResponseModel.getData()) {
                             items.add(new Item(itemRemote));
                         }
+                        sortItems(items);
                         itemsAdapter.setNewData(items);
                     }
                 });
         disposables.add(response);
+    }
+
+    private void sortItems(List<Item> items) {
+        Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item first, Item second) {
+                return first.getId().compareTo(second.getId());
+            }
+        });
     }
 }
