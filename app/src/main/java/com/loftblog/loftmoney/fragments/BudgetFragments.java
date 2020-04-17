@@ -1,6 +1,8 @@
 package com.loftblog.loftmoney.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.loftblog.loftmoney.screens.addItem.AddItemActivity;
 import com.loftblog.loftmoney.screens.main.adapter.Item;
 import com.loftblog.loftmoney.screens.main.adapter.ItemsAdapter;
 import com.loftblog.loftmoney.web.WebFactory;
+import com.loftblog.loftmoney.web.models.AuthResponse;
 import com.loftblog.loftmoney.web.models.GetItemsResponseModel;
 import com.loftblog.loftmoney.web.models.ItemRemote;
 
@@ -76,15 +79,18 @@ public class BudgetFragments extends Fragment {
     }
 
     public void loadItems() {
-        Disposable response = WebFactory.getInstance().loadItemsRequest().request("expense")
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
+        String authToken = sharedPreferences.getString(AuthResponse.AUTH_TOKEN_KEY, "");
+
+        Disposable response = WebFactory.getInstance().loadItemsRequest().request("expense", authToken)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<GetItemsResponseModel>() {
+                .subscribe(new Consumer<List<ItemRemote>>() {
                     @Override
-                    public void accept(GetItemsResponseModel getItemsResponseModel) throws Exception {
+                    public void accept(List<ItemRemote> listItems) throws Exception {
                         swipeRefreshLayout.setRefreshing(false);
                         List<Item> items = new ArrayList<>();
-                        for (ItemRemote itemRemote: getItemsResponseModel.getData()) {
+                        for (ItemRemote itemRemote: listItems) {
                             items.add(new Item(itemRemote));
                         }
                         sortItems(items);

@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class WebFactory {
 
     static WebFactory instance = null;
+    private String baseUrl = "https://loftschool.com/android-api/basic/v1/";
 
     public static WebFactory getInstance() {
         if (instance == null) {
@@ -29,13 +30,14 @@ public class WebFactory {
                 .build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://verdant-violet.glitch.me/")
+                .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 
+    public AuthRequest getAuthRequest() { return retrofit.create(AuthRequest.class); }
     public LoadItemsRequest loadItemsRequest() {
         return retrofit.create(LoadItemsRequest.class);
     }

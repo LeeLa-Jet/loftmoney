@@ -9,5 +9,5 @@ public interface PostItemRequest {
     @POST("./items/add")
     @FormUrlEncoded
     Completable request(@Field("price") Integer price,
-                        @Field("name") String name, @Field("type") String type);
+                        @Field("name") String name, @Field("type") String type, @Field("auth-token") String authToken);
 }

@@ -11,5 +11,25 @@
     <style name="AddItemTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">#dbdbdb</item>
     </style>
+    
+    <style name="AuthTextStyle" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/auth_text_color</item>
+        <item name="android:textSize">@dimen/zeplin_text_style</item>
+    </style>
+
+    <style name="MainText" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">#666664</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AuthButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:background">@drawable/button_background</item>
+    </style>
 
 </resources>

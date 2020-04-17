@@ -12,4 +12,5 @@
     <color name="tint_color">#FFFFFF</color>
     <color name="tabColor">#FFFFFF</color>
     <color name="enabled_button">#7ed321</color>
+    <color name="auth_text_color">#FFFFFF</color>
 </resources>

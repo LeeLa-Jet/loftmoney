@@ -1,5 +1,7 @@
 package com.loftblog.loftmoney.screens.addItem;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.loftblog.loftmoney.R;
 import com.loftblog.loftmoney.web.WebFactory;
+import com.loftblog.loftmoney.web.models.AuthResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,14 +32,16 @@ public class AddItemActivity extends AppCompatActivity {
     private String name;
     private String price;
     private Button addButton;
+    private EditText textName;
+    private EditText textValue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
-        final EditText textName = findViewById(R.id.txtAddName);
-        final EditText textValue = findViewById(R.id.txtAddValue);
+        textName = findViewById(R.id.txtAddName);
+        textValue = findViewById(R.id.txtAddValue);
         addButton = findViewById(R.id.addButton);
 
         textName.addTextChangedListener(new TextWatcher() {
@@ -91,13 +96,23 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void sendNewExpense(Integer price, String name) {
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
+        String authToken = sharedPreferences.getString(AuthResponse.AUTH_TOKEN_KEY, "");
+
+        textName.setEnabled(false);
+        textValue.setEnabled(false);
+        addButton.setVisibility(View.GONE);
+
         Disposable response = WebFactory.getInstance().postItemRequest()
-                .request(price, name, "expense")
+                .request(price, name, "expense", authToken)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
                     public void run() throws Exception {
+                        textName.setEnabled(true);
+                        textValue.setEnabled(true);
+                        addButton.setVisibility(View.VISIBLE);
                         Toast.makeText(getApplicationContext(), getString(R.string.success_added), Toast.LENGTH_SHORT).show();
                         finish();
                     }

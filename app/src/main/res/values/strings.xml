@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Loftmoney</string>
+    <string name="app_name" translatable="false">LoftMoney</string>
     <string name="main_title" translatable="false">Hello world!</string>
     <string name="edittext_name_hint" translatable="false">Title</string>
     <string name="edittext_price_hint" translatable="false">Price</string>
@@ -8,4 +8,6 @@
     <string name="incomes">Доходы</string>
     <string name="success_added">Добавлено успешно!</string>
     <string name="toolbar_title">Учёт бюджета</string>
+    <string name="auth_button_text">Войти</string>
+    <string name="text_not_found">Нет расходов</string>
 </resources>
