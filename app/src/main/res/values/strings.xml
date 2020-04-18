@@ -10,4 +10,7 @@
     <string name="toolbar_title">Учёт бюджета</string>
     <string name="auth_button_text">Войти</string>
     <string name="text_not_found">Нет расходов</string>
+    <string name="selected">Выделено: %1$s</string>
+    <string name="remove">Удалить</string>
+    <string name="confirm">Вы действительно хотите удалить выбранные пункты?</string>
 </resources>

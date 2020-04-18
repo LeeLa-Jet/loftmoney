@@ -42,4 +42,5 @@ public class WebFactory {
         return retrofit.create(LoadItemsRequest.class);
     }
     public PostItemRequest postItemRequest() { return retrofit.create(PostItemRequest.class); }
+    public RemoveItemRequest removeItemRequest() { return retrofit.create(RemoveItemRequest.class); }
 }

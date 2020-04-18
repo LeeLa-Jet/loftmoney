@@ -13,4 +13,7 @@
     <color name="tabColor">#FFFFFF</color>
     <color name="enabled_button">#7ed321</color>
     <color name="auth_text_color">#FFFFFF</color>
+    <color name="actionModeColor">#333f59</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorArrow">#F2F2F2</color>
 </resources>
